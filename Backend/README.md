@@ -3,7 +3,7 @@
 
 1. Clone project
 
-2. Go to Backend/eproject/eproject directory
+2. Go to Backend/eproject directory
 
 3. Create and enter virtual environment
 ```bash
