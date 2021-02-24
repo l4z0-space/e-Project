@@ -21,7 +21,8 @@ class AuthenticationTests(TestCase):
         payload = {
             'email' : 'lazo@test.com',
             'password' : 'test123',
-            'name' : 'Test Name'
+            'name' : 'Test Name',
+            'phone': '+123 1234123 12'
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -37,7 +38,8 @@ class AuthenticationTests(TestCase):
         registerPayload = {
             'email' : 'test@gmail.com',
             'password' : 'test123',
-            'name' : 'Test Name'
+            'name' : 'Test Name',
+            'phone': '+412 213412'
         }
         registerResponse = self.client.post(CREATE_USER_URL, registerPayload)
         self.assertEqual(registerResponse.status_code, status.HTTP_201_CREATED)

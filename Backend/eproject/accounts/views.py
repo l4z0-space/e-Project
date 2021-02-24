@@ -15,6 +15,7 @@ class CreateUserView(generics.CreateAPIView):
                         headers={"Access-Control-Allow-Origin": "*",
                                  "Access-Control-Allow-Headers": "*"})
 
+
 class CreateTokenView(ObtainAuthToken):
     """ Create a new auth token for the user """
     serializer_class = AuthTokenSerializer
