@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import './style.css'
+import {Formik, useField, Form} from 'formik'
+import * as Yup from 'yup'
 import userService from '../services/user'
 import { Button, TextField } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,82 +9,94 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useHistory } from 'react-router-dom'
 import {errorAlert, successAlert} from '../reducers/alertReducer'
 
-const valid = {
-
-  email : (e) => {
-    if(e.length===0)
-      return true
-
-    const pat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
-    return pat.test(e)
-  }
-  ,
-  password: (p) => {
-    console.log(12);
-    if(p.length===0)
-      return true
-    const pat = new RegExp('^(?=.*[a-zA-Z])(?=.*[0-9])')
-    return pat.test(p) && p.length>5
-  }
-
+const CustomTextInput = ({label, ...props}) => {
+  const [field, meta] = useField(props)
+  return(
+    <>
+    <TextField variant='standard' size='medium' margin='normal' label={label} className='text-input' {...field} {...props} />
+    <br />
+    <br/>
+    {meta.touched && meta.error ? (
+    <div className='error'>{meta.error}</div>
+    ): null}
+    </>
+  );
 }
-
-
-const ErrorField = (props) => {
-  return (
-    <p className='error'>{props.text}</p>
-  )
-}
-
 
 const Register = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const [fName, setFname] = useState("")
-    const [email, setEmail] = useState("")
-    const [pass, setPass] = useState("")
-    const [phone, setPhone] = useState("")
     const user = useSelector( ({user}) => user )
 
     if (user) {
       return <Redirect push to="/"/> 
     } 
   
-
-    const handleRegister = async  (e) => {
-      e.preventDefault()
-      const payload = {
-        name: fName,
-        email,
-        password:pass,
-        phone
-      }
-      emptyForm()
-      try{
-        await userService.register(payload);
-            dispatch(successAlert("Successfully Registered, now you can log in!"));
-            setTimeout(()=>dispatch(errorAlert("")),3000);
-            history.push('/login')
+    return (
+      <>
+      <div className='register'>
+        <h2>Register to e-project</h2>
+        <Formik
+          initialValues={{
+            fName: '',
+            email: '',
+            pass: '',
+            phone: ''
+          }}
+          validationSchema={
+            Yup.object({
+            fName: Yup.string().min(6, 'Name must be at least 6 characters').required('Required'),
+            email: Yup.string().email('Email is not valid').required('Required'),
+            pass: Yup.string()
+              .min(6, 'Password must be at least 6 characters')
+              .required('Required')
+              .matches(/^(?=.*[a-zA-Z])(?=.*[0-9])/, 'Password must contain letters and numbers.'),
+            phone: Yup.string()
+              .matches(/\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/, 'Phone number is invalid')
+              .min(10, 'Invalid phone number')
+              .max(10, 'Invalid phone number')
+              .required('Required')
+          })}
+          onSubmit={async (values, {setSubmitting, resetForm}) => {
+            const payload = {
+              name: values.fName,
+              email: values.email,
+              password: values.password,
+              phone: values.phone
+            }
             
-        }
-        catch(exception){
-            dispatch(errorAlert("You cannot register with the provided credentials!"));
-            setTimeout(()=>dispatch(errorAlert("")),3000);
-        }
+            try{
+              await userService.register(payload);
+                  dispatch(successAlert("Successfully Registered, now you can log in!"));
+                  setTimeout(()=>dispatch(errorAlert("")),3000);
+                  history.push('/login')
+                  
+            }
+            catch(exception){
+                  dispatch(errorAlert("You cannot register with the provided credentials!"));
+                  setTimeout(()=>dispatch(errorAlert("")),3000);
+            }
 
-    }
 
-    const emptyForm = () => {
-      setFname('')
-      setPass('')
-      setEmail('')
-      setPhone('')
-    }
-
-    
-
+            resetForm();
+            setSubmitting(false);
+          }}
+        >
+         {props => (
+           <Form>
+            <CustomTextInput name='fName' label='Full Name' />
+            <CustomTextInput name='email' label='Email'  />
+            <CustomTextInput name='pass' type='password' label='Password'  />
+            <CustomTextInput name='phone' label='Phone Number'  />
+            <Button type='submit' variant='contained' >{props.isSubmitting ? 'Loading...' : 'Submit'}</Button>   
+           </Form>
+         )} 
+        </Formik>
+      </div>
+      </>
+    ); 
+/*
     return(
         <> 
         <div className='register'>
@@ -106,6 +120,7 @@ const Register = () => {
         </div>
         </>
     )
+    */
 }
 
 export default Register;
