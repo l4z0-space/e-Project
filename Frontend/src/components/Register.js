@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './style.css'
 import {Formik, useField, Form} from 'formik'
 import * as Yup from 'yup'
@@ -13,8 +13,7 @@ const CustomTextInput = ({label, ...props}) => {
   const [field, meta] = useField(props)
   return(
     <>
-    <TextField variant='standard' size='medium' margin='normal' label={label} className='text-input' {...field} {...props} />
-    <br />
+    <TextField variant='standard' size='medium' label={label}  {...field} {...props} />
     <br/>
     {meta.touched && meta.error ? (
     <div className='error'>{meta.error}</div>
@@ -55,14 +54,15 @@ const Register = () => {
             phone: Yup.string()
               .matches(/\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/, 'Phone number is invalid')
               .min(10, 'Invalid phone number')
-              .max(10, 'Invalid phone number')
               .required('Required')
           })}
           onSubmit={async (values, {setSubmitting, resetForm}) => {
+            resetForm();
+            setSubmitting(false);
             const payload = {
               name: values.fName,
               email: values.email,
-              password: values.password,
+              password: values.pass,
               phone: values.phone
             }
             
@@ -77,10 +77,6 @@ const Register = () => {
                   dispatch(errorAlert("You cannot register with the provided credentials!"));
                   setTimeout(()=>dispatch(errorAlert("")),3000);
             }
-
-
-            resetForm();
-            setSubmitting(false);
           }}
         >
          {props => (
@@ -89,7 +85,7 @@ const Register = () => {
             <CustomTextInput name='email' label='Email'  />
             <CustomTextInput name='pass' type='password' label='Password'  />
             <CustomTextInput name='phone' label='Phone Number'  />
-            <Button type='submit' variant='contained' >{props.isSubmitting ? 'Loading...' : 'Submit'}</Button>   
+            <Button type='submit' variant='contained' color='primary' >{props.isSubmitting ? 'Loading...' : 'Register'}</Button>   
            </Form>
          )} 
         </Formik>
