@@ -1,52 +1,57 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './style.css'
-
+import {Formik, useField, Form} from 'formik'
 import {  Button, TextField } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { user_login } from '../reducers/userReducer'
 import { Redirect } from 'react-router-dom'
 
 const Login = () => {
-  
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  
+
+  const CustomTextInput = ({label, ...props}) => {
+    const [field, meta] = useField(props)
+    return(
+      <>
+      <TextField variant='standard' size='medium' label={label}  {...field} {...props} />
+      <br/>
+      </>
+    );
+  }
 
   const dispatch = useDispatch()
 
   const user = useSelector( ({user}) => user )
 
-  if (user) {
-
+  if (user)
     return <Redirect push to="/"/> 
 
-  } 
-  
-  const handleLogin = async (e) => {
-    e.preventDefault()
-    const payload = {email, password}
-    emptyForm()
-    // Redux action takes care of that
-    dispatch(user_login(payload))
-
-}
-
-const emptyForm = () => {
-    setEmail("")
-    setPassword("")
-}
   return(
-      <> 
-      <div className='register'>
+    <>
+    <div className='register'>
       <h2>Login to e-Project</h2>
-        
-        <TextField value={email} onChange={(e)=>setEmail(e.target.value)} label="E-mail"/><br/>
-        <TextField value={password} onChange={(e)=>setPassword(e.target.value)} label="Password"/><br/>
-                
-        <Button onClick={handleLogin} variant="contained" color="primary">Login</Button>
-      </div>
-      </>
-  )
+      <Formik
+        initialValues={{email: '', password: ''}}
+        onSubmit={ (values, {setSubmitting, resetForm}) => {
+
+          const payload = {email: values.email, password: values.password}
+          resetForm();
+          setSubmitting(false);
+
+          dispatch(user_login(payload));
+        }}
+
+      >
+        {props => (
+          <Form>
+            <CustomTextInput  name='email' label='Email' />
+            <CustomTextInput  name='password' type='password' label='Password'/>
+            <Button type='submit' variant='contained' color='primary'>{props.isSubmitting ? 'Loading...' : 'Login'}</Button>
+          </Form>
+        )}
+      </Formik>
+    </div>
+    </>
+  );
 }
 
 export default Login;

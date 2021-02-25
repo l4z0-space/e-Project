@@ -92,31 +92,6 @@ const Register = () => {
       </div>
       </>
     ); 
-/*
-    return(
-        <> 
-        <div className='register'>
-        <h2>Register to e-Project</h2>
-
-          <form onSubmit={handleRegister}>
-
-          <TextField value={fName} onChange={(e)=>{setFname(e.target.value)}} label="Full name" /><br/>
-          
-          <TextField value={email} onChange={(e)=>{setEmail(e.target.value)}} label="E-mail"/><br/>
-          {!valid.email(email) ? <ErrorField text='Please provide a proper email format.'/> :  null }
-
-          <TextField value={pass} onChange={(e)=>{setPass(e.target.value)}} label="Password"/><br/>
-          {!valid.password(pass) ? <ErrorField text='Password must have more than 6 chars and contain both numbers and letters.'/> :  null }
-          <TextField value={phone} onChange={(e)=>{setPhone(e.target.value)}} label="Phone Number"/><br/>
-
-                 
-          <Button type='submit' variant="contained" color="primary">Register</Button>
-
-          </form>
-        </div>
-        </>
-    )
-    */
 }
 
 export default Register;
