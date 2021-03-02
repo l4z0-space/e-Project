@@ -1,6 +1,9 @@
 
 import axios from 'axios'
-const baseURL = 'http://localhost:8000/api/accounts/'
+
+const baseURL = 'http://localhost:8000/'
+const accountsURL = `${baseURL}api/accounts/`
+const projectsURL = `${baseURL}projects/`
 
 let token = null
 
@@ -10,7 +13,7 @@ const setToken = (newToken) => {
 
 const login = async (credentials) => {
     console.log(credentials);
-    const response = await axios.post(`${baseURL}token/`, credentials)
+    const response = await axios.post(`${accountsURL}token/`, credentials)
     return response.data
 }
 
@@ -19,17 +22,20 @@ const getUser = async () => {
         headers: { Authorization: token},
     }
     console.log(config);
-    const response = await axios.get(`${baseURL}me/`, config)
+    const response = await axios.get(`${accountsURL}me/`, config)
     return response.data
 }
 
+const createProject = async (payload) => {
+    console.log(payload)
+    const response = await axios.post(`${projectsURL}create/`, payload)
+    return response.data
+}
 
 const register = async (credentials) => {
     console.log(credentials);
-    const response = await axios.post(`${baseURL}create/`, credentials)
+    const response = await axios.post(`${accountsURL}create/`, credentials)
     return response.data
 }
 
-
-
-export default {login, getUser, register, setToken};
+export default {login, createProject, getUser, register, setToken};

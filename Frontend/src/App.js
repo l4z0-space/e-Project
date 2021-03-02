@@ -11,6 +11,7 @@ import Register from './components/Register'
 import Login from './components/Login'
 import Landing from './components/Landing'
 import NavBar from './components/NavBar'
+import CreateProject from './components/CreateProject'
 import UserProfile from './components/UserProfile'
 import { useDispatch, useSelector } from 'react-redux'
 import { set_user_from_ls, logout } from './reducers/userReducer'
@@ -34,7 +35,7 @@ const App = () => {
     dispatch(logout())
     history.push('/login')
   }
-  
+
   return (
     <Container  maxWidth="lg">
 
@@ -55,6 +56,10 @@ const App = () => {
 
         <Route exact path="/login">
           <Login />
+        </Route>
+
+        <Route exact path='/projects/create'>
+          <CreateProject />
         </Route>
 
         <Route exact path="/me">

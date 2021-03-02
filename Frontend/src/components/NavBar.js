@@ -37,7 +37,8 @@ const NavBar = ({user, handleLogout}) => {
             user
             ?
             [<Link key='1' className={classes.link} to="/me"><PersonIcon/></Link>,
-             <Button key='2' color="inherit" onClick={handleLogout}>Logout</Button>
+             <Button key='2' color="inherit" onClick={handleLogout}>Logout</Button>,
+             <Link key='3' className={classes.link} to='projects/create' ><Button color='inherit'>Create Project</Button></Link>,
             ]
             : 
             [
