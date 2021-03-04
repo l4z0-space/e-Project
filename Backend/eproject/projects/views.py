@@ -3,10 +3,13 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
 from .models import Project
 from .serializers import ProjectSerializer
+from api.models import User
+
 
 @api_view(['GET'])
 @permission_classes((AllowAny, ))
@@ -17,27 +20,43 @@ def list_projects_view(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-@permission_classes((IsAuthenticated, ))
 def create_project_view(request):
 
-    # Retrieve the authenticated user
-    user = resuest.user
+    # Retrieve user id from token
+    token = request.headers['Authorization']
+    user_id = Token.objects.get(key=token).user_id
 
-    # Create a new project linked with the user
-    new_project = Project(author=user)
+    data = request.data
+    data['author'] = user_id
+
+    # Create a new project 
+    new_project = Project()
 
     # Serialize with the entered data
-    serializer = ProjectSerializer(new_project, data=request.data)
+    serializer = ProjectSerializer(new_project, data=data)
 
-    # Add Post 
+    # Add Project 
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED, 
+                        headers={"Access-Control-Allow-Origin": "*",
+                                 "Access-Control-Allow-Headers": "*"})
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET'])
+def get_recent_projects_view(request):
+
+    # Get the last 5 completed projects
+    recent_projects = Project.objects.filter(status='complete').order_by('-created_at')[:5]
+
+    serializer = ProjectSerializer(recent_projects, many=True)
+    
+    return Response(serializer.data, status=status.HTTP_200_OK) 
+
+
 @api_view(['DELETE'])
-@permission_classes((IsAuthenticated, ))
 def delete_project_view(request, pk):
 
     try:

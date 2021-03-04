@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect} from 'react'
 import './style.css'
+import {useState} from 'react'
 import {Link} from 'react-router-dom'
 import {Button} from '@material-ui/core'
-
+import userService from '../services/user'
 
 const WelcomeLinks = () => {
   return (
@@ -10,6 +11,30 @@ const WelcomeLinks = () => {
       <Link className='link' to='/register'>< Button color='primary' variant='contained'>Register!</Button></Link>
       <Link className='link' to='/login'>< Button color='primary' variant='contained'>Login!</Button></Link>
     </>
+  )
+}
+
+const RecentProjects =  () => {
+
+  const [data, setData] = useState({projects: {}})
+
+  useEffect(()=> {
+
+    const fetchData = async () => {
+      const results = await userService.getRecentProjects()
+      console.log(results)
+      setData(results)
+    }
+
+    fetchData()
+  }, [])
+
+
+  return (
+    <div>
+      <ul>
+      </ul>
+    </div>
   )
 }
 
@@ -24,15 +49,15 @@ const Landing = ({user}) => {
             <h3 >Hello {user.name}!</h3>
             
             <p>
-              Not much going on for the moment, for now
-              you can view your details <Link className='link' to='/me'>here.</Link>
+              View your details <Link className='link' to='/me'>here.</Link>
             </p>
             
           </div>
           
           
           : <WelcomeLinks/>}
-          
+
+          <RecentProjects/> 
          
           <p></p>
         </div>
