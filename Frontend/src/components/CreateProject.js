@@ -22,8 +22,24 @@ const CustomTextInput = ({label, ...props}) => {
   );
 }
 
+const CustomTextArea = ({label, ...props}) => {
+    const [field, meta] = useField(props)
+    return(
+        <>
+            <TextareaAutosize placeholder='Enter project description..'
+                rowsMin={4} 
+                label={label} {...field} {...props}/>
+            <br/>
+            {meta.touched && meta.error ? (
+                <div className='error'>{meta.error}</div>
+            ) : null}
+        </>
+    );
+}
+
 const CreateProject = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const user = useSelector(({user}) => user)
 
     // If you're not logged in, get the hell out of here!
@@ -69,9 +85,10 @@ const CreateProject = () => {
 
                     // Perform request
                     try{
+                        await userService.createProject(payload)
                         dispatch(successAlert("Project created!"))
                         setTimeout(()=>dispatch(successAlert('')), 3000)
-                        // Perform request here
+                        history.push('/')
 
                     }catch(exception){
                         dispatch(errorAlert('Something went wrong!'))
@@ -81,10 +98,10 @@ const CreateProject = () => {
             >
                 {props => (
                     <Form>
-                        <CustomTextInput label='Title' name='title' />
+                        <CustomTextInput name='title' label='Title'  />
                         <br />
-                        <TextareaAutosize placeholder='Enter project description..' aria-label='Description' rowsMin={4} name='description' /><br />
-                        <CustomTextInput label='Programming Language' name='programming_language' /><br/>
+                        <CustomTextArea name='description'/>
+                        <CustomTextInput name='programming_language' label='Programming Language'/><br/>
                         <Button variant='contained' color='primary' type='Submit'>{props.isSubmitting ? 'Loading..' : 'Create'}</Button>
                     </Form>
                 )}

@@ -19,7 +19,7 @@ const login = async (credentials) => {
 
 const getUser = async () => {
     const config = {
-        headers: { Authorization: token},
+        headers: { Authorization: `Token ${token}`},
     }
     console.log(config);
     const response = await axios.get(`${accountsURL}me/`, config)
@@ -27,8 +27,16 @@ const getUser = async () => {
 }
 
 const createProject = async (payload) => {
-    console.log(payload)
-    const response = await axios.post(`${projectsURL}create/`, payload)
+    const userToken = JSON.parse(window.localStorage.getItem('user')).token
+    const config = {
+        headers: {Authorization: userToken},
+    }
+    const response = await axios.post(`${projectsURL}create/`, payload, config)
+    return response.data
+}
+
+const getRecentProjects = async () => {
+    const response = await axios.get(`${projectsURL}recentProjects/`)
     return response.data
 }
 
@@ -38,4 +46,4 @@ const register = async (credentials) => {
     return response.data
 }
 
-export default {login, createProject, getUser, register, setToken};
+export default {login, getRecentProjects, createProject, getUser, register, setToken};

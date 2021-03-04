@@ -68,9 +68,9 @@ const Register = () => {
             
             try{
               await userService.register(payload);
-                  dispatch(successAlert("Successfully Registered, now you can log in!"));
-                  setTimeout(()=>dispatch(errorAlert("")),3000);
-                  history.push('/login')
+              dispatch(successAlert("Successfully Registered, now you can log in!"));
+              setTimeout(()=>dispatch(errorAlert("")),3000);
+              history.push('/login')
                   
             }
             catch(exception){
