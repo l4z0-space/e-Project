@@ -14,12 +14,13 @@ const setToken = (newToken) => {
 const login = async (credentials) => {
     console.log(credentials);
     const response = await axios.post(`${accountsURL}token/`, credentials)
+    console.log(response.data);
     return response.data
 }
 
 const getUser = async () => {
     const config = {
-        headers: { Authorization: `Token ${token}`},
+        headers: { Authorization: `${token}`},
     }
     console.log(config);
     const response = await axios.get(`${accountsURL}me/`, config)

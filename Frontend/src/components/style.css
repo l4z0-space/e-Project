@@ -2,7 +2,7 @@
     width: 300px;
     margin: auto;
     padding: 10px;
-    border: 10px solid  rgb(63, 81, 181);
+    border: 10px solid  rgb(13, 110, 253);
     text-align: center;
     margin-top: 100px;
 }
@@ -20,6 +20,10 @@
     /* background: #a8b1af; */
     color: rgb(107, 105, 105);
     font-size: 2.4vw;
+}
+
+.welcome h1{
+    margin-bottom: 30px;
 }
 
 .error{
@@ -45,7 +49,6 @@
 
 .greet{
     border-left: 10px solid  rgb(63, 81, 181);
-
 }
 
 .greet h3{
@@ -55,4 +58,56 @@
 .greet p{
     font-size: 22px;
     
+}
+
+.projectDescription{
+    color: rgb(46, 45, 42);
+
+    font-family:'Times New Roman', Times, serif;
+    padding: 20px;
+    padding-bottom: 10px;
+    background-color:#a1aabb;
+    box-shadow: inset 100px 0px 100px -50px rgb(186, 188, 192),
+                inset -100px 0px 100px -50px  rgb(186, 188, 192);
+    font-size: 20px;
+}
+
+.project{
+    /* border: 2px solid  #f89809; */
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    list-style-type:none;
+    margin-top: 100px;
+  }
+
+
+.projects{
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+	#nav{
+		display: block;
+		width: 100%;
+		text-align: center;
+        background: azure;
+	}
+    .welcome{
+        width: 100%;
+        background-color: bisque;
+        text-align: center;
+    }
+
+    .project{
+        width: 100%;
+        /* align-self: center; */
+    }
+
+    .createForm{
+        width: 400px;
+    }
+   
 }

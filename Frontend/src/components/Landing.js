@@ -2,27 +2,46 @@ import React, { useEffect} from 'react'
 import './style.css'
 import {useState} from 'react'
 import {Link} from 'react-router-dom'
-import {Button} from '@material-ui/core'
 import userService from '../services/user'
 
 const WelcomeLinks = () => {
   return (
     <> 
-      <Link className='link' to='/register'>< Button color='primary' variant='contained'>Register!</Button></Link>
-      <Link className='link' to='/login'>< Button color='primary' variant='contained'>Login!</Button></Link>
+      <Link className='link' to='/register'>< button className='btn btn-primary' >Register!</button></Link>
+      <Link className='link' to='/login'>< button className='btn btn-primary' >Login!</button></Link>
     </>
   )
 }
 
+const styles = {
+  lang:{
+    width: '120px',
+    backgroundColor:'#0366d6',
+    color: 'white',
+    padding: 5,
+    marginBottom:5,
+    fontSize:12,
+    margin:'auto'
+  },
+  
+  
+  title:{
+    color: 'white',
+    fontSize: '20px',
+    marginTop: '-2px',
+    backgroundColor: 'rgb(13, 110, 253)'
+  }
+}
+
 const RecentProjects =  () => {
 
-  const [data, setData] = useState({projects: {}})
+  const [data, setData] = useState([])
 
   useEffect(()=> {
 
     const fetchData = async () => {
       const results = await userService.getRecentProjects()
-      console.log(results)
+      console.log(results);
       setData(results)
     }
 
@@ -31,8 +50,19 @@ const RecentProjects =  () => {
 
 
   return (
-    <div>
-      <ul>
+    <div className='projects'>
+      <ul  >
+
+        {data.map(p=> { return  (
+
+          <li className='project'  style={styles.project} key={p.id}>
+            <h3 style={styles.title}>{p.title}</h3>
+            <p className='projectDescription'>{p.description}</p>
+            <p style={styles.lang}>{p.programming_language}</p>
+          </li>)  
+        })}
+
+
       </ul>
     </div>
   )
@@ -41,21 +71,9 @@ const RecentProjects =  () => {
 const Landing = ({user}) => {
     return ( 
         <div className="welcome">
-          <h1>Welcome to e-Project</h1>
-          
-          {user ? 
-          
-          <div className='greet'>
-            <h3 >Hello {user.name}!</h3>
-            
-            <p>
-              View your details <Link className='link' to='/me'>here.</Link>
-            </p>
-            
-          </div>
-          
-          
-          : <WelcomeLinks/>}
+          <h1 >Welcome to e-Project</h1>
+          {/* {user ? null : <WelcomeLinks/>} */}
+          <h2>Recent Completed projects</h2>
 
           <RecentProjects/> 
          

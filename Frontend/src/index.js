@@ -7,6 +7,7 @@ import {
 } from "react-router-dom" 
 import store from './store'
 
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 const renderApp = () => {
   ReactDOM.render(
 

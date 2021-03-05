@@ -13,7 +13,9 @@ const CustomTextInput = ({label, ...props}) => {
   const [field, meta] = useField(props)
   return(
     <>
-    <TextField variant='standard' size='medium' label={label}  {...field} {...props} />
+      {label}
+      <input type='text' className='form-control' label={label}  {...field} {...props} />
+
     <br/>
     {meta.touched && meta.error ? (
     <div className='error'>{meta.error}</div>
@@ -35,7 +37,7 @@ const Register = () => {
     return (
       <>
       <div className='register'>
-        <h2>Register to e-project</h2>
+        <h2 style={{fontSize:20}}>Register to e-project</h2>
         <Formik
           initialValues={{
             fName: '',
@@ -80,13 +82,13 @@ const Register = () => {
           }}
         >
          {props => (
-           <Form>
-            <CustomTextInput name='fName' label='Full Name' />
+          <form style={{padding:20}}>
+          <CustomTextInput name='fName' label='Full Name' />
             <CustomTextInput name='email' label='Email'  />
             <CustomTextInput name='pass' type='password' label='Password'  />
             <CustomTextInput name='phone' label='Phone Number'  />
-            <Button type='submit' variant='contained' color='primary' >{props.isSubmitting ? 'Loading...' : 'Register'}</Button>   
-           </Form>
+            <button type='submit' className='btn btn-primary'>{props.isSubmitting ? 'Loading...' : 'Register'}</button>   
+           </form>
          )} 
         </Formik>
       </div>

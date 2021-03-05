@@ -3,17 +3,25 @@ import './style.css'
 import {Formik, useField, Form} from 'formik'
 import * as Yup from 'yup'
 import userService from '../services/user'
-import { Button, TextField, TextareaAutosize } from '@material-ui/core'
+import {TextField, TextareaAutosize } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useHistory } from 'react-router-dom'
 import LoggedOut from './LoggedOut';
 import {errorAlert, successAlert} from '../reducers/alertReducer'
+const styles = {
+    createForm:{
+        textAlign:'center',
+        width:'50%',
+        margin:'auto',
+         minWidth:'300px'
+    }
+}
 
 const CustomTextInput = ({label, ...props}) => {
   const [field, meta] = useField(props)
   return(
     <>
-    <TextField variant='standard' size='medium' label={label}  {...field} {...props} />
+    <input className="form-control" label={label}  {...field} {...props} />
     <br/>
     {meta.touched && meta.error ? (
     <div className='error'>{meta.error}</div>
@@ -26,7 +34,7 @@ const CustomTextArea = ({label, ...props}) => {
     const [field, meta] = useField(props)
     return(
         <>
-            <TextareaAutosize placeholder='Enter project description..'
+            <textarea className="form-control" placeholder='Enter project description..'
                 rowsMin={4} 
                 label={label} {...field} {...props}/>
             <br/>
@@ -48,7 +56,7 @@ const CreateProject = () => {
     }
 
     return(
-        <div className='CreateProject'>
+        <div style={{textAlign:'center', padding:20}} className='CreateProject'>
             <h2>Create a Project</h2>
             <Formik
                 initialValues={{
@@ -97,12 +105,17 @@ const CreateProject = () => {
                 }}
             >
                 {props => (
-                    <Form>
-                        <CustomTextInput name='title' label='Title'  />
+                    <Form className='createForm'  style={styles.createForm}>
+                        <CustomTextInput name='title' placeholder='Title'  />
                         <br />
                         <CustomTextArea name='description'/>
-                        <CustomTextInput name='programming_language' label='Programming Language'/><br/>
-                        <Button variant='contained' color='primary' type='Submit'>{props.isSubmitting ? 'Loading..' : 'Create'}</Button>
+                        <CustomTextInput name='programming_language' placeholder='Programming Language'/><br/>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Pending</option>
+                            <option value="2">Complete</option>
+                            <option value="3">In progress</option>
+                        </select>
+                        <button style={{margin:20}} className='btn btn-primary' variant='contained' color='primary' type='Submit'>{props.isSubmitting ? 'Loading..' : 'Create'}</button>
                     </Form>
                 )}
             </Formik>
