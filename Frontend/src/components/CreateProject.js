@@ -3,17 +3,17 @@ import './style.css'
 import {Formik, useField, Form} from 'formik'
 import * as Yup from 'yup'
 import userService from '../services/user'
-import {TextField, TextareaAutosize } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
-import { Redirect, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import LoggedOut from './LoggedOut';
 import {errorAlert, successAlert} from '../reducers/alertReducer'
+
 const styles = {
     createForm:{
         textAlign:'center',
         width:'50%',
         margin:'auto',
-         minWidth:'300px'
+        minWidth:'300px'
     }
 }
 
@@ -62,7 +62,8 @@ const CreateProject = () => {
                 initialValues={{
                     title: '',
                     description: '',
-                    programming_language: ''
+                    programming_language: '',
+                    status: 'in_progress',
                 }}
 
                 validationSchema={
@@ -88,7 +89,8 @@ const CreateProject = () => {
                     const payload = {
                         title: values.title,
                         description: values.description,
-                        programming_language: values.programming_language
+                        programming_language: values.programming_language,
+                        status: values.status
                     }
 
                     // Perform request
@@ -110,7 +112,7 @@ const CreateProject = () => {
                         <br />
                         <CustomTextArea name='description'/>
                         <CustomTextInput name='programming_language' placeholder='Programming Language'/><br/>
-                        <select class="form-select" aria-label="Default select example">
+                        <select name='status' class="form-select" aria-label="Default select example">
                             <option selected>Pending</option>
                             <option value="2">Complete</option>
                             <option value="3">In progress</option>

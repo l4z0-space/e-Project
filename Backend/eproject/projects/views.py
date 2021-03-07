@@ -49,7 +49,7 @@ def create_project_view(request):
 def get_recent_projects_view(request):
 
     # Get the last 5 completed projects
-    recent_projects = Project.objects.filter(status='complete').order_by('-created_at')[:5]
+    recent_projects = Project.objects.filter(status='complete').order_by('-updated_on')[:5]
 
     serializer = ProjectSerializer(recent_projects, many=True)
     

@@ -51,7 +51,7 @@ const RecentProjects =  () => {
 
   return (
     <div className='projects'>
-      <ul  >
+      <ul>
 
         {data.map(p=> { return  (
 

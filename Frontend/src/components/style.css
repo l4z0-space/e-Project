@@ -1,10 +1,10 @@
 .register{
     width: 300px;
     margin: auto;
-    padding: 10px;
-    border: 10px solid  rgb(13, 110, 253);
+    padding: 20px;
+    border: 7px solid  rgb(13, 110, 253);
     text-align: center;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 .register input{
     padding: 5px;

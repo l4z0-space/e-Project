@@ -1,11 +1,11 @@
 import React from 'react'
 import './style.css'
+
 import {Formik, useField, Form} from 'formik'
 import * as Yup from 'yup'
+
 import userService from '../services/user'
-import { Button, TextField } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
-// import { user_login } from '../reducers/userReducer'
 import { Redirect, useHistory } from 'react-router-dom'
 import {errorAlert, successAlert} from '../reducers/alertReducer'
 
@@ -82,13 +82,13 @@ const Register = () => {
           }}
         >
          {props => (
-          <form style={{padding:20}}>
+          <Form style={{padding:10}, {marginTop:10}}>
           <CustomTextInput name='fName' label='Full Name' />
             <CustomTextInput name='email' label='Email'  />
             <CustomTextInput name='pass' type='password' label='Password'  />
             <CustomTextInput name='phone' label='Phone Number'  />
             <button type='submit' className='btn btn-primary'>{props.isSubmitting ? 'Loading...' : 'Register'}</button>   
-           </form>
+           </Form>
          )} 
         </Formik>
       </div>
