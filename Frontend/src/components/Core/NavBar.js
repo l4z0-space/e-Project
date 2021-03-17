@@ -1,6 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-
 import {Link} from 'react-router-dom'
 
  
@@ -35,7 +33,7 @@ const NavBar = ({user, handleLogout}) => {
           </li>
           
           <li className="nav-item">
-          <Link className="nav-item" to='projects/create' ><button className="btn" style={styles.link} color='inherit'>Create Project</button></Link>
+          <Link className="nav-item" to={`/projects/create`} ><button className="btn" style={styles.link} color='inherit'>Add Project</button></Link>
           </li>
           <li className="nav-item">
           <button  className="btn btn-danger" style={styles.link} onClick={handleLogout}>Logout</button>

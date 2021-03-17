@@ -1,14 +1,14 @@
 import React from 'react'
-import './style.css'
+import '../style.css'
 import {Formik, useField, Form} from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
-import { user_login } from '../reducers/userReducer'
+import { user_login } from '../../reducers/userReducer'
 import { Redirect } from 'react-router-dom'
 
 const Login = () => {
 
   const CustomTextInput = ({label, ...props}) => {
-    const [field, meta] = useField(props)
+    const [field] = useField(props)
     return(
       <>
       {label}

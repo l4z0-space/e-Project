@@ -1,17 +1,8 @@
 import React, { useEffect} from 'react'
-import './style.css'
+import '../style.css'
 import {useState} from 'react'
-import {Link} from 'react-router-dom'
-import userService from '../services/user'
+import userService from '../../services/user'
 
-const WelcomeLinks = () => {
-  return (
-    <> 
-      <Link className='link' to='/register'>< button className='btn btn-primary' >Register!</button></Link>
-      <Link className='link' to='/login'>< button className='btn btn-primary' >Login!</button></Link>
-    </>
-  )
-}
 
 const styles = {
   lang:{
@@ -41,7 +32,6 @@ const RecentProjects =  () => {
 
     const fetchData = async () => {
       const results = await userService.getRecentProjects()
-      console.log(results);
       setData(results)
     }
 

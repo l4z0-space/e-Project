@@ -12,9 +12,7 @@ const setToken = (newToken) => {
 }
 
 const login = async (credentials) => {
-    console.log(credentials);
     const response = await axios.post(`${accountsURL}token/`, credentials)
-    console.log(response.data);
     return response.data
 }
 
@@ -22,7 +20,6 @@ const getUser = async () => {
     const config = {
         headers: { Authorization: `${token}`},
     }
-    console.log(config);
     const response = await axios.get(`${accountsURL}me/`, config)
     return response.data
 }
@@ -42,7 +39,6 @@ const getRecentProjects = async () => {
 }
 
 const register = async (credentials) => {
-    console.log(credentials);
     const response = await axios.post(`${accountsURL}create/`, credentials)
     return response.data
 }

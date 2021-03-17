@@ -1,12 +1,12 @@
 import React from 'react'
-import './style.css'
+import '../style.css'
 import {Formik, useField, Form} from 'formik'
 import * as Yup from 'yup'
-import userService from '../services/user'
+import userService from '../../services/user'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import LoggedOut from './LoggedOut';
-import {errorAlert, successAlert} from '../reducers/alertReducer'
+import LoggedOut from '../Core/LoggedOut';
+import {errorAlert, successAlert} from '../../reducers/alertReducer'
 
 const styles = {
     createForm:{
@@ -35,7 +35,7 @@ const CustomTextArea = ({label, ...props}) => {
     return(
         <>
             <textarea className="form-control" placeholder='Enter project description..'
-                rowsMin={4} 
+                rowsmin={4} 
                 label={label} {...field} {...props}/>
             <br/>
             {meta.touched && meta.error ? (
@@ -92,7 +92,7 @@ const CreateProject = () => {
                         programming_language: values.programming_language,
                         status: values.status
                     }
-
+                    
                     // Perform request
                     try{
                         await userService.createProject(payload)
@@ -112,8 +112,8 @@ const CreateProject = () => {
                         <br />
                         <CustomTextArea name='description'/>
                         <CustomTextInput name='programming_language' placeholder='Programming Language'/><br/>
-                        <select name='status' class="form-select" aria-label="Default select example">
-                            <option selected>Pending</option>
+                        <select name='status' className="form-select" aria-label="Default select example">
+                            <option value="1">Pending</option>
                             <option value="2">Complete</option>
                             <option value="3">In progress</option>
                         </select>

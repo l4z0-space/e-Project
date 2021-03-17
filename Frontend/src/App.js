@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import { Container } from '@material-ui/core'
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,15 +6,15 @@ import {
     useHistory
  
   } from "react-router-dom" 
-import Register from './components/Register'
-import Login from './components/Login'
-import Landing from './components/Landing'
-import NavBar from './components/NavBar'
-import CreateProject from './components/CreateProject'
-import UserProfile from './components/UserProfile'
+import Register from './components/Auth/Register'
+import Login from './components/Auth/Login'
+import Landing from './components/Projects/Landing'
+import NavBar from './components/Core/NavBar'
+import CreateProject from './components/Projects/CreateProject'
+import UserProfile from './components/Core/UserProfile'
 import { useDispatch, useSelector } from 'react-redux'
 import { set_user_from_ls, logout } from './reducers/userReducer'
-import CustomAlert from './components/CustomAlert'
+import CustomAlert from './components/Core/CustomAlert'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -37,7 +36,7 @@ const App = () => {
   }
 
   return (
-    <Container  maxWidth="lg">
+    <div>
 
     <Router>
 
@@ -68,7 +67,7 @@ const App = () => {
 
       </Switch>
     </Router>
-    </Container>
+    </div>
   )
 }
 

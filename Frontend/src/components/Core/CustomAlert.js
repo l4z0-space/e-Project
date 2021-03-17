@@ -1,7 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-import {Alert} from '@material-ui/lab';
-
 
 
 const CustomAlert = () => {
@@ -13,10 +11,14 @@ const CustomAlert = () => {
         {
         alert.error 
         ?  
-        <Alert severity="error">{alert.text}</Alert>
+        <div className="alert alert-danger" role="alert">            
+            {alert.text}
+        </div>
 
         : 
-        <Alert severity="success">{alert.text}</Alert>
+        <div className="alert alert-success" role="alert">            
+            {alert.text}
+        </div>
         }
         </>
        )

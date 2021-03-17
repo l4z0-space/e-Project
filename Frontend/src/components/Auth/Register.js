@@ -1,13 +1,13 @@
 import React from 'react'
-import './style.css'
+import '../style.css'
 
 import {Formik, useField, Form} from 'formik'
 import * as Yup from 'yup'
 
-import userService from '../services/user'
+import userService from '../../services/user'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useHistory } from 'react-router-dom'
-import {errorAlert, successAlert} from '../reducers/alertReducer'
+import {errorAlert, successAlert} from '../../reducers/alertReducer'
 
 const CustomTextInput = ({label, ...props}) => {
   const [field, meta] = useField(props)
@@ -22,6 +22,10 @@ const CustomTextInput = ({label, ...props}) => {
     ): null}
     </>
   );
+}
+
+const styles = {
+  form:{padding:10, marginTop:10}
 }
 
 const Register = () => {
@@ -82,7 +86,7 @@ const Register = () => {
           }}
         >
          {props => (
-          <Form style={{padding:10}, {marginTop:10}}>
+          <Form style={styles.form}>
           <CustomTextInput name='fName' label='Full Name' />
             <CustomTextInput name='email' label='Email'  />
             <CustomTextInput name='pass' type='password' label='Password'  />
