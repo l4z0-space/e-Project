@@ -1,6 +1,9 @@
 import userService from '../services/user'
 import {errorAlert, successAlert} from './alertReducer'
 
+import Cookies from 'js-cookie'
+
+
 const userReducer = (state=null, action) => {
     switch (action.type){
 
@@ -11,21 +14,21 @@ const userReducer = (state=null, action) => {
             return action.data
 
         case 'LOGOUT':
-            window.localStorage.clear()
+            Cookies.remove('user')
             return null
 
         default:
             return state
     }
 }
+
+
 export const user_login = (payload) => {
 
     return async dispatch => {
         try{
             const dataToken = await userService.login(payload)
-            tokenizeServices(dataToken.token)
-            // console.log('Token/LOGIN ',dataToken);
-            
+            tokenizeServices(dataToken.token)            
             const data = await userService.getUser()
 
             const localUser = {
@@ -33,7 +36,8 @@ export const user_login = (payload) => {
                 data
             }
             // Save to local storage
-            window.localStorage.setItem('user', JSON.stringify(localUser) )
+            // window.localStorage.setItem('user', JSON.stringify(localUser) )
+            Cookies.set('user', JSON.stringify(localUser),{ secure: true })
 
             dispatch({
                 type:'LOGIN',
@@ -51,8 +55,6 @@ export const user_login = (payload) => {
 }
 
 export const set_user_from_ls = (user) => {
-    // const token = user.token
-    // tokenizeServices(token)
     return({
         type:'SET_USER',
         data:user.data

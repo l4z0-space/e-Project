@@ -16,13 +16,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { set_user_from_ls, logout } from './reducers/userReducer'
 import CustomAlert from './components/Core/CustomAlert'
 
+import Cookies from 'js-cookie'
+
+
 const App = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const user = useSelector( ({user}) => user )
   
   useEffect(()=>{
-    const loggedUser = window.localStorage.getItem('user')
+    const loggedUser = Cookies.get('user')
+  
     if(loggedUser){
       const userOk = JSON.parse(loggedUser)
       dispatch(set_user_from_ls(userOk))
