@@ -18,6 +18,7 @@ import CustomAlert from './components/Core/CustomAlert'
 
 import Cookies from 'js-cookie'
 import EditProject from './components/Projects/EditProject'
+import SearchProject from './components/Projects/SearchProject'
 
 
 const App = () => {
@@ -64,6 +65,10 @@ const App = () => {
 
         <Route exact path='/projects/edit/:slug'>
           <EditProject />
+        </Route>
+
+        <Route exact path='/projects/search'>
+          <SearchProject/>
         </Route>
 
         <Route exact path='/projects/create'>

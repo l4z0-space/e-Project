@@ -31,6 +31,10 @@ const NavBar = ({user, handleLogout}) => {
           <li className="nav-item active">
           <Link style={styles.link} className="nav-link"  to="/me">My Profile</Link>
           </li>
+
+          <li className="nav-item">
+          <Link className="nav-item" to={`/projects/search`} ><button className="btn" style={styles.link} color='inherit'>Search</button></Link>
+          </li>
           
           <li className="nav-item">
           <Link className="nav-item" to={`/projects/create`} ><button className="btn" style={styles.link} color='inherit'>Add Project</button></Link>

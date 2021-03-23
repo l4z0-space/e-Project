@@ -35,7 +35,6 @@ export const user_login = (payload) => {
                 token:dataToken.token,
                 data
             }
-            // Save to local storage
             // window.localStorage.setItem('user', JSON.stringify(localUser) )
             Cookies.set('user', JSON.stringify(localUser),{ secure: true })
 

@@ -76,4 +76,11 @@ const register = async (credentials) => {
     return response.data
 }
 
-export default {login, deleteProject, getProject, updateProject, getRecentProjects, createProject, getUser, register, setToken};
+
+const getAllProjects = async () => {
+    const response = await axios.get(`${projectsURL}list/`)
+    return response.data
+}
+
+
+export default {login, deleteProject, getAllProjects, getProject, updateProject, getRecentProjects, createProject, getUser, register, setToken};
