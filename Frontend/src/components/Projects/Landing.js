@@ -86,7 +86,7 @@ const RecentProjects =  (props) => {
 
               <div className='row' style={{marginTop: '15px'}} >
                 {props.user_id === p.author && 
-                 (p.status === 'complete' || p.status === 'pending') ? 
+                 (p.status === 'pending' || p.status === 'complete') ? 
                 <> 
                   <div className='col-md-4'>
                     <Link className='btn btn-outline-secondary btn-sm btn-block'

@@ -49,10 +49,16 @@ const CreateProject = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const user = useSelector(({user}) => user)
+    let projectStatus = 'in_progress';
 
     // If you're not logged in, get the hell out of here!
     if(!user){
         return (<LoggedOut/>);
+    }
+
+    const handleChange = (e) => {
+        console.log(e.target.value)
+        projectStatus = e.target.value
     }
 
     return(
@@ -90,9 +96,11 @@ const CreateProject = () => {
                         title: values.title,
                         description: values.description,
                         programming_language: values.programming_language,
-                        status: values.status
+                        status: projectStatus 
                     }
                     
+                    console.log(payload['status'])
+                     
                     // Perform request
                     try{
                         await userService.createProject(payload)
@@ -104,6 +112,7 @@ const CreateProject = () => {
                         dispatch(errorAlert('Something went wrong!'))
                         setTimeout(()=>dispatch(errorAlert('')), 3000);
                     }
+                    
                 }}
             >
                 {props => (
@@ -112,10 +121,10 @@ const CreateProject = () => {
                         <br />
                         <CustomTextArea name='description'/>
                         <CustomTextInput name='programming_language' placeholder='Programming Language'/><br/>
-                        <select name='status' className="form-select" aria-label="Default select example">
-                            <option value="1">Pending</option>
-                            <option value="2">Complete</option>
-                            <option value="3">In progress</option>
+                        <select name='status' className="form-select" onChange={handleChange} aria-label="Default select example">
+                            <option value="pending">Pending</option>
+                            <option value="complete">Complete</option>
+                            <option value="in_progress">In progress</option>
                         </select>
                         <button style={{margin:20}} className='btn btn-primary' variant='contained' color='primary' type='Submit'>{props.isSubmitting ? 'Loading..' : 'Create'}</button>
                     </Form>
