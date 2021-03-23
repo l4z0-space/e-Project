@@ -70,7 +70,7 @@ export const logout = () => {
         })
 
         dispatch(successAlert("Successfully logged out!"));
-            setTimeout(()=>dispatch(errorAlert("")),4000);
+        setTimeout(()=>dispatch(errorAlert("")),4000);
     }
 }
 

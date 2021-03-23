@@ -61,24 +61,19 @@
 }
 
 .projectDescription{
-    color: rgb(46, 45, 42);
-
+    text-align: left;
     font-family:'Times New Roman', Times, serif;
-    padding: 20px;
-    padding-bottom: 10px;
-    background-color:#a1aabb;
-    box-shadow: inset 100px 0px 100px -50px rgb(186, 188, 192),
-                inset -100px 0px 100px -50px  rgb(186, 188, 192);
-    font-size: 20px;
+    padding: 0px;
+    font-size: 18px;
 }
 
 .project{
-    /* border: 2px solid  #f89809; */
+    border: 2px solid  #f89809;
     width: 50%;
     margin: auto;
     padding: 20px;
     list-style-type:none;
-    margin-top: 100px;
+    margin-top: 50px;
   }
 
 

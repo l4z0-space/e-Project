@@ -59,8 +59,12 @@ def get_recent_projects_view(request):
 @api_view(['DELETE'])
 def delete_project_view(request, pk):
 
+    # Retrieve user id from token
+    token = request.headers['Authorization']
+    user_id = Token.objects.get(key=token).user_id
+
     try:
-        project_item = Project.objects.get(id=pk) 
+        project_item = Project.objects.filter(author=user_id, id=pk).first() 
     except Project.DoesNotExist as e:
         return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND) 
 
@@ -75,3 +79,47 @@ def delete_project_view(request, pk):
 
 
     return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['PUT'])
+def edit_project_view(request, pk):
+
+    payload = request.data
+    # Retrieve user id from token
+    token = request.headers['Authorization']
+    user_id = Token.objects.get(key=token).user_id
+    
+    payload['author'] = user_id
+
+    try:
+        project_item = Project.objects.filter(author=user_id, id=pk).first()
+    except Project.DoesNotExist as e:
+        return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND, 
+                        headers={"Access-Control-Allow-Origin": "*",
+                                 "Access-Control-Allow-Headers": "*"})
+    
+    data = {}
+
+    # Update project
+    serializer = ProjectSerializer(project_item, data=payload)
+    
+    if serializer.is_valid():
+        serializer.save()
+        data['success'] = 'Update Successful'
+        return Response(data=data)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET'])
+def get_project_view(request, pk):
+
+    try:
+        project = Project.objects.get(id=pk)
+    except Project.DoesNotExist as e:
+        return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ProjectSerializer(project)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)

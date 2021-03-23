@@ -1,31 +1,36 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 import '../style.css'
-import {useState} from 'react'
+import {useHistory, Link} from 'react-router-dom'
 import userService from '../../services/user'
+import {useDispatch} from 'react-redux'
+import { successAlert, errorAlert } from '../../reducers/alertReducer'
 
 
 const styles = {
-  lang:{
-    width: '120px',
-    backgroundColor:'#0366d6',
-    color: 'white',
-    padding: 5,
-    marginBottom:5,
-    fontSize:12,
-    margin:'auto'
+
+  lang: {
+    textAlign: 'left',
+    fontSize: '12px'
   },
-  
-  
+
+  projectStatus: {
+    textAlign: 'right',
+    fontSize: '12px'
+  },
+
   title:{
-    color: 'white',
     fontSize: '20px',
     marginTop: '-2px',
-    backgroundColor: 'rgb(13, 110, 253)'
+    textAlign: 'left',
+    fontWeight: 'bold',
+    padding: '4px'
   }
 }
 
-const RecentProjects =  () => {
 
+const RecentProjects =  (props) => {
+  const dispatch = useDispatch()
+  const history = useHistory()
   const [data, setData] = useState([])
 
   useEffect(()=> {
@@ -39,16 +44,67 @@ const RecentProjects =  () => {
   }, [])
 
 
+  async function handleDelete(id, title) {
+    const deleteString = `Are you sure you want to delete ${title}?`
+    const answer = window.confirm(deleteString)
+    if(answer){
+      try {
+        await userService.deleteProject(id)
+        dispatch(successAlert("Project deleted"))
+        setTimeout(()=>dispatch(successAlert('')), 3000)
+        window.location.reload(false)
+      }catch(exception){
+        dispatch(errorAlert("Project deleted"))
+        setTimeout(()=>dispatch(errorAlert('')), 3000)
+      }
+    }
+  }
+
   return (
+
     <div className='projects'>
+
       <ul>
 
         {data.map(p=> { return  (
 
-          <li className='project'  style={styles.project} key={p.id}>
-            <h3 style={styles.title}>{p.title}</h3>
-            <p className='projectDescription'>{p.description}</p>
-            <p style={styles.lang}>{p.programming_language}</p>
+          <li className='card project'  style={styles.project} key={p.id}>
+            <div className='card-body'>
+
+              <h3 className='card-title' style={styles.title}>{p.title}</h3>
+              <hr className='w-100'/>
+              <p className='card-text projectDescription'>{p.description}</p>
+
+              <div className='row'>
+                <div className='col-md-8' style={styles.lang}>
+                  Language: {p.programming_language}
+                </div>
+                <div className='col-md-4' style={styles.projectStatus}>
+                  <u>{p.status}</u>
+                </div>
+              </div>
+
+              <div className='row' style={{marginTop: '15px'}} >
+                {props.user_id === p.author && 
+                 (p.status === 'complete' || p.status === 'pending') && 
+                <> 
+                  <div className='col-md-4'>
+                    <Link className='btn btn-outline-secondary btn-sm btn-block'
+                       to={`/projects/edit/${p.id}`}>Edit</Link>
+                  </div>
+                  <div className='col-md-4'>
+                    <button className='btn btn-danger btn-sm btn-block' 
+                      onClick={() => {
+                          handleDelete(p.id, p.title)
+                      }}
+                    >Delete</button>
+                  </div>
+                <div className='col-md-4'>
+                </div>
+                </>
+                }
+              </div>
+            </div>
           </li>)  
         })}
 
@@ -64,8 +120,8 @@ const Landing = ({user}) => {
           <h1 >Welcome to e-Project</h1>
           {/* {user ? null : <WelcomeLinks/>} */}
           <h2>Recent Completed projects</h2>
-
-          <RecentProjects/> 
+          {user && console.log(user.id)}
+          <RecentProjects user_id={user && user.id}/> 
          
           <p></p>
         </div>

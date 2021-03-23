@@ -17,6 +17,7 @@ import { set_user_from_ls, logout } from './reducers/userReducer'
 import CustomAlert from './components/Core/CustomAlert'
 
 import Cookies from 'js-cookie'
+import EditProject from './components/Projects/EditProject'
 
 
 const App = () => {
@@ -59,6 +60,10 @@ const App = () => {
 
         <Route exact path="/login">
           <Login />
+        </Route>
+
+        <Route exact path='/projects/edit/:slug'>
+          <EditProject />
         </Route>
 
         <Route exact path='/projects/create'>
