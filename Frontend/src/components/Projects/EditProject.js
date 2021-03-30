@@ -81,7 +81,7 @@ const EditProject = () => {
 
     return (
         <div style={{textAlign:'center', padding:20}} className='CreateProject'>
-            <h2>Create a Project</h2>
+            <h2>Edit Project</h2>
             <Formik
                 enableReinitialize={true}
                 initialValues={data}
@@ -108,6 +108,7 @@ const EditProject = () => {
                     // Form paylaod
                     const payload = {
                         id: data.id,
+                        author: data.author,
                         title: values.title,
                         description: values.description,
                         programming_language: values.programming_language,
@@ -139,7 +140,7 @@ const EditProject = () => {
                             <option value="in_progress">In progress</option>
                         </select>
                         <button  style={styles.actionButton} className='btn btn-primary' type='Submit'>
-                            {props.isSubmitting ? 'Loading..' : 'Create'}
+                            {props.isSubmitting ? 'Loading..' : 'Edit'}
                         </button>
                         <button onClick={()=>handleCancel()} style={styles.actionButton} className='btn btn-danger' type='button'>
                             Cancel

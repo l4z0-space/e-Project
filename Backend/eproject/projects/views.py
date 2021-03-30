@@ -61,12 +61,8 @@ def get_recent_projects_view(request):
 @api_view(['DELETE'])
 def delete_project_view(request, pk):
 
-    # Retrieve user id from token
-    token = request.headers['Authorization']
-    user_id = Token.objects.get(key=token).user_id
-
     try:
-        project_item = Project.objects.filter(author=user_id, id=pk).first() 
+        project_item = Project.objects.get(id=pk) 
     except Project.DoesNotExist as e:
         return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND) 
 
@@ -87,12 +83,8 @@ def delete_project_view(request, pk):
 def edit_project_view(request, pk):
 
     payload = request.data
-    # Retrieve user id from token
-    token = request.headers['Authorization']
-    user_id = Token.objects.get(key=token).user_id
+    user_id = payload['author'] 
     
-    payload['author'] = user_id
-
     try:
         project_item = Project.objects.filter(author=user_id, id=pk).first()
     except Project.DoesNotExist as e:

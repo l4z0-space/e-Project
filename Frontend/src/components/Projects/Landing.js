@@ -85,7 +85,7 @@ const RecentProjects =  (props) => {
               </div>
 
               <div className='row' style={{marginTop: '15px'}} >
-                {props.user_id === p.author && 
+                {props.user &&
                  (p.status === 'pending' || p.status === 'complete') ? 
                 <> 
                   <div className='col-md-4'>
@@ -123,7 +123,7 @@ const Landing = ({user}) => {
           {/* {user ? null : <WelcomeLinks/>} */}
           <h2>Recent Completed projects</h2>
           {user && console.log(user.id)}
-          <RecentProjects user_id={user && user.id}/> 
+          <RecentProjects user={user}/> 
          
           <p></p>
         </div>

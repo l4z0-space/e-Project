@@ -83,7 +83,7 @@ const SearchProject = () => {
                     <td>{parse_date(project.created_at)}</td>
                     <td>{parse_date(project.updated_on)}</td>
                     <td>{project.programming_language}</td>
-                    {user.id === project.author &&
+                    {user &&
                      (project.status === 'pending' || project.status === 'complete') ? (
                         <>
                         <td>

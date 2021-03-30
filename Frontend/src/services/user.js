@@ -52,16 +52,9 @@ const deleteProject = async(id) => {
 }
 
 const updateProject = async (payload) => {
-    // get user token and project id
-    const userToken = JSON.parse(Cookies.get('user')).token
-
     const p_id = payload['id']
-    const config = {
-        headers: {Authorization: userToken},
-    }
-
     const url = `${projectsURL}update/${p_id}`
-    const response = await axios.put(url, payload, config)
+    const response = await axios.put(url, payload)
     
     return response.data
 }
