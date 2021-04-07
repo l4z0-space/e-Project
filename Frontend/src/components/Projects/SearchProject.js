@@ -1,7 +1,7 @@
 import '../style.css'
 import React, { useState, useEffect } from 'react'
 import userService from '../../services/user'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import {errorAlert, successAlert} from '../../reducers/alertReducer'
 
@@ -12,6 +12,7 @@ const parse_date = (date) => {
 
 const SearchProject = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const [filter, setFilter] = useState("")
     const [allProjects, set_allProjects] = useState([])
     const user = useSelector(({user}) => user)
@@ -35,7 +36,7 @@ const SearchProject = () => {
                 await userService.deleteProject(id)
                 dispatch(successAlert('Deleted Succesfully'))
                 setTimeout(()=>dispatch(successAlert('')), 3000)
-                window.location.reload()
+                history.push('/')
             }catch(exception){
                 dispatch(errorAlert('Deleted Succesfully'))
                 setTimeout(()=>dispatch(errorAlert('')), 3000)
@@ -83,17 +84,18 @@ const SearchProject = () => {
                     <td>{parse_date(project.created_at)}</td>
                     <td>{parse_date(project.updated_on)}</td>
                     <td>{project.programming_language}</td>
-                    {user.id === project.author &&
-                     (project.status === 'pending' || project.status === 'complete') ? (
-                        <>
+                    {user &&
                         <td>
                             <Link to={`/projects/edit/${project.id}`} className='btn btn-outline-secondary btn-sm btn-block'>Edit</Link>
                         </td>
+                    }
+                    {user &&
+                     (project.status === 'pending' || project.status === 'complete') ? (
+                        <>
                         <td><button onClick={()=>handleDelete(project.id, project.title)} className='btn btn-danger btn-sm'>Delete</button></td>
                         </>
                      ) : (
                          <>
-                         <td></td>
                          <td></td>
                          </>
                      )}

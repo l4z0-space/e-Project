@@ -40,28 +40,14 @@ const getProject = async (id) => {
 }
 
 const deleteProject = async(id) => {
-    // Get token
-    const userToken = JSON.parse(Cookies.get('user')).token
-    const config = {
-        headers: {Authorization: userToken},
-    }
-
-    const response = await axios.delete(`${projectsURL}delete/${id}`, config)
-
+    const response = await axios.delete(`${projectsURL}delete/${id}`)
     return response.data
 }
 
 const updateProject = async (payload) => {
-    // get user token and project id
-    const userToken = JSON.parse(Cookies.get('user')).token
-
     const p_id = payload['id']
-    const config = {
-        headers: {Authorization: userToken},
-    }
-
     const url = `${projectsURL}update/${p_id}`
-    const response = await axios.post(url, payload, config)
+    const response = await axios.put(url, payload)
     
     return response.data
 }
