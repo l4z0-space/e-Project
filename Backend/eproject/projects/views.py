@@ -1,14 +1,22 @@
 from django.shortcuts import render
+from rest_framework.views import APIView 
+from rest_framework.parsers import JSONParser, FileUploadParser
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.decorators import parser_classes
 
 from .models import Project
 from .serializers import ProjectSerializer
 from api.models import User
+
+from base64 import b64encode
+from json import dumps, loads
+import base64
+import json
 
 
 @api_view(['GET'])
@@ -18,6 +26,7 @@ def list_projects_view(request):
     serializer = ProjectSerializer(projects, many=True)
 
     return Response(serializer.data)
+
 
 @api_view(['POST'])
 def create_project_view(request):
@@ -31,8 +40,6 @@ def create_project_view(request):
 
     # Create a new project 
     new_project = Project()
-
-    print(data['status'])
 
     # Serialize with the entered data
     serializer = ProjectSerializer(new_project, data=data)
@@ -125,3 +132,50 @@ def get_project_view(request, pk):
     serializer = ProjectSerializer(project)
 
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@parser_classes([JSONParser])
+def projects_upload_view(request, format=None):
+    
+    try:
+
+        file_as_base64 = request.data['file']
+        file_as_base64 = file_as_base64[file_as_base64.find(',')+1:]
+
+        url_bytes_b64 = base64.urlsafe_b64decode(file_as_base64)
+        file_as_string = str(url_bytes_b64, "utf-8")
+
+        file_as_json = json.loads(file_as_string)
+
+        wrong_formatted = []
+        proper_formatted = []
+
+        token = request.headers['Authorization']
+        user_id = Token.objects.get(key=token).user_id
+        print(user_id)
+
+        for project_as_json in file_as_json:
+            project_as_json['author']=user_id
+            new_project = Project()
+            serializer = ProjectSerializer(new_project, data=project_as_json)
+            if serializer.is_valid():
+                serializer.save()
+                proper_formatted.append(serializer.data)
+
+            else:
+                wrong_formatted.append(project_as_json)
+
+        return Response(
+            data={
+                "proper_formatted":proper_formatted,
+                "wrong_formatted":wrong_formatted
+            },
+            status=status.HTTP_200_OK)
+
+    except Exception:
+        return Response({'error':'File not in proper JSON format.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+    # return Response({'received data': request.data})z
