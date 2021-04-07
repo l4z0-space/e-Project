@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Uploaded Project 1",
+        "description": "Uploaded project 1 description",
+        "programming_language": "Python, Javascript",
+        "status": "complete"
+    },
+    {
+        "title": "Uploaded Project 2",
+        "description": "Uploaded project 2 description",
+        "programming_language": "Python, Javascript",
+        "status": "Complete"
+    },
+    {
+        "title": "Uploaded Project 3",
+        "description": "Uploaded project 3 description",
+        "programming_language": "Python, Javascript",
+        "status": "complete"
+    },
+    {
+        "description": "wrev9f80y92higucy7f8goyi",
+        "programming_language": "Python, Javascript",
+        "status": "complete",
+        "title": "wrev9f80y92higucy7f8goyi"
+    },
+    {
+        "title": "Uploaded Project 5",
+        "description": "Uploaded project 5 description",
+        "programming_language": "Python, Javascript",
+        "status": "complete"
+    }
+]

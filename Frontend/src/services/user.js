@@ -61,8 +61,25 @@ const updateProject = async (payload) => {
     }
 
     const url = `${projectsURL}update/${p_id}`
-    const response = await axios.put(url, payload, config)
+    const response = await axios.post(url, payload, config)
     
+    return response.data
+}
+
+const  upload_projects = async (contentType, data) => {
+    const userToken = JSON.parse(Cookies.get('user')).token
+    const config = {
+        headers: {
+            "Authorization": userToken,
+            "Content-Type":contentType
+        },
+    }
+
+    const response = await axios.post(
+                        `${projectsURL}upload/`,
+                        data,
+                        config
+                    )
     return response.data
 }
 
@@ -83,4 +100,5 @@ const getAllProjects = async () => {
 }
 
 
-export default {login, deleteProject, getAllProjects, getProject, updateProject, getRecentProjects, createProject, getUser, register, setToken};
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {login,upload_projects, deleteProject, getAllProjects, getProject, updateProject, getRecentProjects, createProject, getUser, register, setToken};

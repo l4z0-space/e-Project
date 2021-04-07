@@ -19,6 +19,7 @@ import CustomAlert from './components/Core/CustomAlert'
 import Cookies from 'js-cookie'
 import EditProject from './components/Projects/EditProject'
 import SearchProject from './components/Projects/SearchProject'
+import Import from './components/Projects/Import'
 
 
 const App = () => {
@@ -73,6 +74,10 @@ const App = () => {
 
         <Route exact path='/projects/create'>
           <CreateProject />
+        </Route>
+
+        <Route exact path='/projects/import'>
+          <Import/>
         </Route>
 
         <Route exact path="/me">

@@ -62,7 +62,7 @@ const CreateProject = () => {
     }
 
     return(
-        <div style={{textAlign:'center', padding:20}} className='CreateProject'>
+        <div style={{textAlign:'center',width:'60%',margin:'auto', padding:20}} className='CreateProject'>
             <h2>Create a Project</h2>
             <Formik
                 initialValues={{
@@ -99,7 +99,7 @@ const CreateProject = () => {
                         status: projectStatus 
                     }
                     
-                    console.log(payload['status'])
+                    console.log('project', payload)
                      
                     // Perform request
                     try{
