@@ -145,7 +145,6 @@ def projects_upload_view(request, format=None):
 
         token = request.headers['Authorization']
         user_id = Token.objects.get(key=token).user_id
-        print(user_id)
 
         for project_as_json in file_as_json:
             project_as_json['author']=user_id
