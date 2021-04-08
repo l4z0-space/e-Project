@@ -69,7 +69,6 @@ const Import = () => {
       set_proper_formatted([])
       set_wrong_formatted([])
       const response_data = await userService.upload_projects("application/json", data)
-      console.log(response_data)
       set_proper_formatted(response_data.proper_formatted)
       set_wrong_formatted(response_data.wrong_formatted)
 
