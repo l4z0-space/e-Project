@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import parser_classes
 
 from .models import Project
-from .serializers import ProjectSerializer
+from .serializers import ProjectSerializer,ProjectListSerializer
 from api.models import User
 
 from base64 import b64encode
@@ -23,7 +23,7 @@ import json
 @permission_classes((AllowAny, ))
 def list_projects_view(request):
     projects = Project.objects.all() 
-    serializer = ProjectSerializer(projects, many=True)
+    serializer = ProjectListSerializer(projects, many=True)
 
     return Response(serializer.data)
 
@@ -60,7 +60,7 @@ def get_recent_projects_view(request):
     # Get the last 5 completed projects
     recent_projects = Project.objects.exclude(status='in_progress').order_by('-updated_on')[:5]
 
-    serializer = ProjectSerializer(recent_projects, many=True)
+    serializer = ProjectListSerializer(recent_projects, many=True)
     
     return Response(serializer.data, status=status.HTTP_200_OK) 
 

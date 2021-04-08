@@ -10,7 +10,6 @@ const parse_date = (date) => {
 }
 
 
-
 const SearchProject = () => {
     const dispatch = useDispatch()
     const history = useHistory()
@@ -96,23 +95,12 @@ const SearchProject = () => {
                     <td>{parse_date(project[1].created_at)}</td>
                     <td>{parse_date(project[1].updated_on)}</td>
                     <td>{project[1].programming_language}</td>
-                    {user &&
-                        <td>
-                            <Link to={`/projects/edit/${project[1].id}`} className='btn btn-outline-secondary btn-sm btn-block'>Edit</Link>
-                        </td>
-                    }
-                    {user &&
-                     (project[1].status === 'pending' || project[1].status === 'complete') ? (
-                        <>
+                    {user &&<td><Link to={`/projects/edit/${project[1].id}`} className='btn btn-outline-secondary btn-sm btn-block'>Edit</Link></td>}
+                    {user && (project[1].status === 'pending' || project[1].status === 'complete') ? (
                         <td><button onClick={()=>handleDelete(project[1].id, project[1].title)} className='btn btn-danger btn-sm'>Delete</button></td>
-                        </>
-                     ) : (
-                         <>
-                         <td></td>
-                         </>
-                     )}
-                 </tr>)}
-              
+                     ) : ( <td></td>)}
+                </tr>)}
+
                 </tbody>
                 </table>
         </div>
